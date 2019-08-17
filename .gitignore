@@ -46,6 +46,10 @@ typings/
 # dotenv environment variables file
 .env
 
+# generated
+dist
+.cache
+
 # next.js build output
 .next
 
