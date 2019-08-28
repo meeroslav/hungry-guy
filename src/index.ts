@@ -15,6 +15,16 @@ function init() {
   if (canvas) {
     const ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = false;
+    canvas.setAttribute('height', cWidth);
+    canvas.setAttribute('width', cHeight);
+
+    const grd = ctx.createLinearGradient(0, 0, 0, 100 * hRatio);
+    grd.addColorStop(0, '#80c2ff');
+    grd.addColorStop(1, '#436caa');
+
+// Fill with gradient
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, 100 * wRatio, 100 * hRatio);
 
     const img = new Image();
     img.onload = () => {
@@ -29,8 +39,6 @@ function init() {
     };
     cartmanImg.src = cartman;
 
-    canvas.setAttribute('height', cWidth);
-    canvas.setAttribute('width', cHeight);
   }
 }
 
