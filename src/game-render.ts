@@ -42,8 +42,8 @@ function fillBackground(ctx: Ctx) {
 }
 
 function drawFood(state: GameState, ctx: Ctx) {
-  drawImage(state.food.item.svg, ctx,
-    state.food.foodX * FOOD_SIZE + SIZE_OFFSET, state.food.foodY * FOOD_SIZE + SIZE_OFFSET,
+  drawImage(state.food.svg, ctx,
+    state.foodX * FOOD_SIZE + SIZE_OFFSET, state.foodY * FOOD_SIZE + SIZE_OFFSET,
     FOOD_SIZE - 2 * SIZE_OFFSET, FOOD_SIZE - 2 * SIZE_OFFSET
   );
 }
