@@ -5,6 +5,8 @@ import { CHEF } from './chef';
 const GRD_START_CL = '#4ca1af';
 const GRD_END_CL = '#C4E0E5';
 
+const SIZE_OFFSET = 1;
+
 export interface Ctx {
   context: CanvasRenderingContext2D;
   wRatio: number;
@@ -40,14 +42,15 @@ function fillBackground(ctx: Ctx) {
 }
 
 function drawFood(state: GameState, ctx: Ctx) {
-  drawImage(state.food.item.svg, ctx, state.food.foodX * FOOD_SIZE, state.food.foodY * FOOD_SIZE,
-    FOOD_SIZE, FOOD_SIZE
+  drawImage(state.food.item.svg, ctx,
+    state.food.foodX * FOOD_SIZE + SIZE_OFFSET, state.food.foodY * FOOD_SIZE + SIZE_OFFSET,
+    FOOD_SIZE - 2 * SIZE_OFFSET, FOOD_SIZE - 2 * SIZE_OFFSET
   );
 }
 
 function drawChef(state: GameState, ctx: Ctx) {
-  drawImage(CHEF, ctx, state.chefX * FOOD_SIZE - 2, 100 - FOOD_SIZE,
-    FOOD_SIZE + 2, FOOD_SIZE + 4
+  drawImage(CHEF, ctx, state.chefX * FOOD_SIZE - SIZE_OFFSET, 100 - FOOD_SIZE - SIZE_OFFSET,
+    FOOD_SIZE + 2 * SIZE_OFFSET, FOOD_SIZE + 2 * SIZE_OFFSET
   );
 }
 
