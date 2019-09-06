@@ -39,8 +39,8 @@ function drawFood(state: GameState, ctx: Ctx) {
   image.onload = () => {
   //   // @ts-ignore
   ctx.context.drawImage(image,
-    state.food.foodX * ctx.wRatio,
-    state.food.foodY * ctx.hRatio, FOOD_SIZE * ctx.wRatio, FOOD_SIZE * ctx.hRatio);
+    state.food.foodX * FOOD_SIZE * ctx.wRatio, state.food.foodY * FOOD_SIZE * ctx.hRatio,
+    FOOD_SIZE * ctx.wRatio, FOOD_SIZE * ctx.hRatio);
   };
   image.src = state.food.item.svg;
 }
