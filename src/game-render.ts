@@ -1,5 +1,6 @@
 import { GameState } from './game-state';
 import { FOOD_SIZE } from './game-food';
+import { CHEF } from './chef';
 
 const GRD_START_CL = '#4ca1af';
 const GRD_END_CL = '#C4E0E5';
@@ -27,6 +28,7 @@ export function initCanvasCtx(canvas: HTMLCanvasElement): Ctx {
 export function renderState(state: GameState, ctx: Ctx) {
   fillBackground(ctx);
   drawFood(state, ctx);
+  drawChef(state, ctx);
 }
 
 function fillBackground(ctx: Ctx) {
@@ -38,12 +40,24 @@ function fillBackground(ctx: Ctx) {
 }
 
 function drawFood(state: GameState, ctx: Ctx) {
+  drawImage(state.food.item.svg, ctx, state.food.foodX * FOOD_SIZE, state.food.foodY * FOOD_SIZE,
+    FOOD_SIZE, FOOD_SIZE
+  );
+}
+
+function drawChef(state: GameState, ctx: Ctx) {
+  drawImage(CHEF, ctx, state.chefX * FOOD_SIZE - 2, 100 - FOOD_SIZE,
+    FOOD_SIZE + 2, FOOD_SIZE + 4
+  );
+}
+
+function drawImage(content: string, ctx: Ctx, posX: number, posY: number, width: number, height: number) {
   const image = new Image();
   image.onload = () => {
-  //   // @ts-ignore
-  ctx.context.drawImage(image,
-    state.food.foodX * FOOD_SIZE * ctx.wRatio, state.food.foodY * FOOD_SIZE * ctx.hRatio,
-    FOOD_SIZE * ctx.wRatio, FOOD_SIZE * ctx.hRatio);
+    //   // @ts-ignore
+    ctx.context.drawImage(image,
+      posX * ctx.wRatio, posY * ctx.hRatio,
+      width * ctx.wRatio, height * ctx.hRatio);
   };
-  image.src = state.food.item.svg;
+  image.src = content;
 }
