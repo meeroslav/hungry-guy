@@ -1,6 +1,9 @@
 import { GameState } from './game-state';
 import { FOOD_SIZE } from './game-food';
 
+const GRD_START_CL = '#4ca1af';
+const GRD_END_CL = '#C4E0E5';
+
 export interface Ctx {
   context: CanvasRenderingContext2D;
   wRatio: number;
@@ -28,8 +31,8 @@ export function renderState(state: GameState, ctx: Ctx) {
 
 function fillBackground(ctx: Ctx) {
   const grd = ctx.context.createLinearGradient(0, 0, 0, 100 * ctx.hRatio);
-  grd.addColorStop(0, '#80c2ff');
-  grd.addColorStop(1, '#436caa');
+  grd.addColorStop(0, GRD_START_CL);
+  grd.addColorStop(1, GRD_END_CL);
   ctx.context.fillStyle = grd;
   ctx.context.fillRect(0, 0, 100 * ctx.wRatio, 100 * ctx.hRatio);
 }
