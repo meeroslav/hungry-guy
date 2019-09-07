@@ -29,15 +29,18 @@ export function calculateState(state: GameState, action: GameAction): GameState 
   if (action === GameAction.MoveDown) {
     const foodY = state.foodY + state.food.speed;
     if (foodY === 9 && state.foodX === state.chefX) {
-      return { ...state, foodY, score: state.score + state.food.speed * 40 };
+      return {
+        ...state,
+        score: state.score + state.food.speed * 40,
+        food: ALL_FOOD[Math.floor(Math.random() * ALL_FOOD.length)],
+        foodY: -1,
+        foodX: Math.floor(Math.random() * MAX_X)
+      };
     }
     if (foodY === 9 && state.foodX !== state.chefX) {
       return { ...state, foodY, lives: state.lives - 1 };
     }
-    if (foodY === 9 && state.foodX !== state.chefX) {
-      return { ...state, foodY, lives: state.lives - 1 };
-    }
-    if (foodY >= 10) {
+    if (foodY === 10) {
       return {
         ...state,
         food: ALL_FOOD[Math.floor(Math.random() * ALL_FOOD.length)],
