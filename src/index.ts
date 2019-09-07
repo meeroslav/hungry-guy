@@ -1,11 +1,10 @@
 import './style.scss';
 import { initCanvasCtx, renderState } from './game-render';
 import { GAME_SPEED, GameState, generateInitialState } from './game-state';
-import { fromEvent, interval, merge } from 'rxjs';
+import { animationFrameScheduler, fromEvent, interval, merge } from 'rxjs';
 import { map, scan, withLatestFrom } from 'rxjs/operators';
 import { calculateState, GameAction, keyToGameAction } from './game-actions';
 import { filter } from 'rxjs/internal/operators/filter';
-import { tap } from 'rxjs/internal/operators/tap';
 
 function init() {
   const canvas: HTMLCanvasElement = document.getElementById('game-canvas') as HTMLCanvasElement;
@@ -28,7 +27,10 @@ function init() {
     );
 
   gameState$
-    .subscribe(n => renderState(n, ctx))
+    .pipe(
+      withLatestFrom(interval(0, animationFrameScheduler), (state, _) => state)
+    )
+    .subscribe((state: GameState) => renderState(state, ctx))
 }
 
 init();
