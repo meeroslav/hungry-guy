@@ -17,7 +17,7 @@ to bundle your application
 TODO:
 * [ ] Reduce score & add new food
 * [ ] Reduce lives
-* [ ] Disable out of screen for Chef
+* [X] Disable out of screen for Chef
 * [ ] Disable out of screen for Food
 * [ ] Animate Game over
 * [ ] Animate start
