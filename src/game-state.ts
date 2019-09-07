@@ -2,7 +2,7 @@ import { ALL_FOOD, Food } from './game-food';
 
 export const MAX_X = 10;
 export const MAX_Y = 10;
-export const GAME_SPEED = 500;
+export const GAME_SPEED = 200;
 export const LIVES = 3;
 
 export interface GameState {

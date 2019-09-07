@@ -1,4 +1,5 @@
 import { GameState, MAX_X } from './game-state';
+import { ALL_FOOD } from './game-food';
 
 export enum GameAction {
   MoveDown = 'MoveDown',
@@ -20,8 +21,31 @@ export function keyToGameAction(event: KeyboardEvent): GameAction {
 }
 
 export function calculateState(state: GameState, action: GameAction): GameState {
+  // GAME OVER: no more changes
+  if (!state.lives) {
+    return state;
+  }
+  // OTHERWISE
   if (action === GameAction.MoveDown) {
-    return { ...state, foodY: state.foodY + state.food.speed }
+    const foodY = state.foodY + state.food.speed;
+    if (foodY === 9 && state.foodX === state.chefX) {
+      return { ...state, foodY, score: state.score + state.food.speed * 40 };
+    }
+    if (foodY === 9 && state.foodX !== state.chefX) {
+      return { ...state, foodY, lives: state.lives - 1 };
+    }
+    if (foodY === 9 && state.foodX !== state.chefX) {
+      return { ...state, foodY, lives: state.lives - 1 };
+    }
+    if (foodY >= 10) {
+      return {
+        ...state,
+        food: ALL_FOOD[Math.floor(Math.random() * ALL_FOOD.length)],
+        foodY: -1,
+        foodX: Math.floor(Math.random() * MAX_X),
+      }
+    }
+    return { ...state, foodY }
   }
   if (action === GameAction.ChefLeft && state.chefX > 0) {
     return { ...state, chefX: state.chefX - 1 }

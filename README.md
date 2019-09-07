@@ -15,10 +15,10 @@ yarn build
 to bundle your application
 
 TODO:
-* [ ] Reduce score & add new food
-* [ ] Reduce lives
+* [X] Reduce score & add new food
+* [X] Reduce lives
 * [X] Disable out of screen for Chef
-* [ ] Disable out of screen for Food
+* [X] Disable out of screen for Food
 * [ ] Animate Game over
 * [ ] Animate start
 * [ ] Animate Chef eating
