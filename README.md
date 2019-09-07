@@ -22,3 +22,4 @@ TODO:
 * [ ] Animate Game over
 * [ ] Animate start
 * [ ] Animate Chef eating
+* [X] Show lives and score
