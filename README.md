@@ -19,7 +19,7 @@ TODO:
 * [X] Reduce lives
 * [X] Disable out of screen for Chef
 * [X] Disable out of screen for Food
-* [ ] Animate Game over
+* [X] Show Game over
 * [ ] Animate start
 * [ ] Animate Chef eating
 * [X] Show lives and score

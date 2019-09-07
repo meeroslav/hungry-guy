@@ -1,6 +1,5 @@
 import { GameState } from './game-state';
-import { FOOD_SIZE } from './game-food';
-import { CHEF } from './chef';
+import { FOOD_SIZE, CHEF } from './game-food';
 
 const GRD_START_CL = '#4ca1af';
 const GRD_END_CL = '#C4E0E5';
@@ -34,10 +33,14 @@ export function initCanvasCtx(canvas: HTMLCanvasElement): Ctx {
 
 export function renderState(state: GameState, ctx: Ctx) {
   fillBackground(ctx);
-  drawFood(state, ctx);
-  drawChef(state, ctx);
-  drawLives(state, ctx);
-  drawScore(state, ctx);
+  if (state.lives) {
+    drawFood(state, ctx);
+    drawChef(state, ctx);
+    drawLives(state, ctx);
+    drawScore(state, ctx);
+  } else {
+    drawGameOver(state, ctx);
+  }
 }
 
 function fillBackground(ctx: Ctx) {
@@ -87,10 +90,22 @@ function drawLives(state: GameState, ctx: Ctx) {
 
 function drawScore(state: GameState, ctx: Ctx) {
   // draw score
-  ctx.context.font = '28px Arial';
+  ctx.context.font = `${ctx.wRatio * 6}px Arial`;
   ctx.context.textAlign = 'right';
   ctx.context.fillStyle = TEXT_CL;
-  ctx.context.fillText(state.score.toString(), (100 - SIZE_OFFSET) * ctx.wRatio, 30);
+  ctx.context.fillText(state.score.toString(), (100 - SIZE_OFFSET) * ctx.wRatio, ctx.hRatio * 6);
+}
+
+function drawGameOver(state: GameState, ctx: Ctx) {
+  ctx.context.font = `${ctx.wRatio * 10}px Arial`;
+  ctx.context.textAlign = 'center';
+  ctx.context.fillStyle = TEXT_CL;
+  ctx.context.fillText('Game Over', 50 * ctx.wRatio, 50 * ctx.hRatio);
+
+  ctx.context.font = `${ctx.wRatio * 7}px Arial`;
+  ctx.context.textAlign = 'center';
+  ctx.context.fillStyle = TEXT_CL;
+  ctx.context.fillText(`${state.score} points`, 50 * ctx.wRatio, 60 * ctx.hRatio);
 }
 
 function drawImage(content: string, ctx: Ctx, posX: number, posY: number, width: number, height: number) {
