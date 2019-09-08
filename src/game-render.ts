@@ -10,6 +10,9 @@ const LIFE_LIGHT_CL = '#ffa4a4';
 const LIFE_DARK_CL = '#9b2830';
 const TEXT_CL = '#242122';
 
+const rxjsdark = '#5C2E88';
+const rxjslight = '#ED168F';
+
 const SIZE_OFFSET = 1;
 const LIFE_RADIUS = 3;
 
