@@ -15,10 +15,12 @@ export interface GameState extends FoodState {
   chefX: number;
   score: number;
   lives: number;
+  gameOn: boolean;
 }
 
 export function generateInitialState(): GameState {
   return {
+    gameOn: true,
     chefX: 5,
     score: 0,
     lives: LIVES,

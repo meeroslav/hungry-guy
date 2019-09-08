@@ -24,8 +24,12 @@ export function keyToGameAction(event: KeyboardEvent): GameAction {
 
 export function calculateState(state: GameState, action: GameAction): GameState {
   // GAME OVER: no more changes
-  if (!state.lives) {
+  if (!state.gameOn) {
     return state;
+  }
+  // FINISH GAME if no more lives
+  if (!state.lives) {
+    return { ...state, gameOn: false };
   }
   // OTHERWISE
   if (action === GameAction.MoveDown) {

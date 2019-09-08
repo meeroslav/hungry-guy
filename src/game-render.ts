@@ -5,7 +5,6 @@ import { debounceTime, tap } from 'rxjs/operators';
 
 const GRD_START_CL = '#4ca1af';
 const GRD_END_CL = '#C4E0E5';
-const TEXT_CL = '#242122';
 
 const RXJS_CL_DARK = '#5C2E88';
 const RXJS_CL_LIGHT = '#ED168F';
@@ -127,7 +126,7 @@ function drawScore(state: GameState, ctx: Ctx) {
   // draw score
   ctx.context.font = `${ctx.wRatio * 6}px Arial`;
   ctx.context.textAlign = 'right';
-  ctx.context.fillStyle = TEXT_CL;
+  ctx.context.fillStyle = RXJS_CL_DARK;
   ctx.context.fillText(state.score.toString(), (100 - SIZE_OFFSET) * ctx.wRatio, ctx.hRatio * 6);
 }
 
