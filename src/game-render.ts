@@ -13,7 +13,6 @@ const RXJS_CL_LIGHT = '#ED168F';
 const SIZE_OFFSET = 1;
 const LIFE_SIZE = 6;
 const BASKET_SIZE = 12;
-const BASKET_OFFSET = BASKET_SIZE / FOOD_SIZE;
 
 export interface Ctx {
   context: CanvasRenderingContext2D;
@@ -92,10 +91,28 @@ function drawChef(state: GameState, ctx: Ctx) {
 }
 
 function drawBasket(state: GameState, ctx: Ctx) {
+  const basketOffset = calculateBasketOffset(state.foodY);
+
   drawImage(BASKET, ctx,
-    state.chefX * FOOD_SIZE - SIZE_OFFSET, 100 - (BASKET_OFFSET * state.foodY),
+    state.chefX * FOOD_SIZE - SIZE_OFFSET, 100 - basketOffset,
     BASKET_SIZE, BASKET_SIZE
   );
+}
+
+function calculateBasketOffset(foodY: number): number {
+  if (foodY === -1) {
+    return 9;
+  }
+  if (foodY >= 9) {
+    return 12;
+  }
+  if (foodY >= 8) {
+    return 10;
+  }
+  if (foodY >= 7) {
+    return 8;
+  }
+  return 6;
 }
 
 function drawLives(state: GameState, ctx: Ctx) {
