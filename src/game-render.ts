@@ -1,5 +1,7 @@
 import { GameState } from './game-state';
-import { FOOD_SIZE, CHEF } from './game-images';
+import { ALL_FOOD, CHEF, Drawable, FOOD_SIZE } from './game-images';
+import { combineLatest, Observable, fromEvent } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 const GRD_START_CL = '#4ca1af';
 const GRD_END_CL = '#C4E0E5';
@@ -29,6 +31,10 @@ export function initCanvasCtx(canvas: HTMLCanvasElement): Ctx {
   canvas.setAttribute('width', cHeight.toString());
 
   return { context, wRatio, hRatio };
+}
+
+export function preloadImages(): Observable<any> {
+  return combineLatest([...ALL_FOOD.map(loadImage), loadImage(CHEF)]);
 }
 
 export function renderState(state: GameState, ctx: Ctx) {
@@ -75,13 +81,15 @@ function drawLives(state: GameState, ctx: Ctx) {
     ctx.context.fill();
 
     ctx.context.beginPath();
-    ctx.context.arc(posX * ctx.wRatio, posY * ctx.hRatio, (LIFE_RADIUS - .5) * ctx.wRatio, -.15 * Math.PI, .75 * Math.PI);
+    ctx.context.arc(
+      posX * ctx.wRatio, posY * ctx.hRatio, (LIFE_RADIUS - .5) * ctx.wRatio, -.15 * Math.PI, .75 * Math.PI);
     ctx.context.strokeStyle = LIFE_DARK_CL;
     ctx.context.lineWidth = ctx.wRatio;
     ctx.context.stroke();
 
     ctx.context.beginPath();
-    ctx.context.arc(posX * ctx.wRatio, posY * ctx.hRatio, (LIFE_RADIUS - .5) * ctx.wRatio, .75 * Math.PI, -.15 * Math.PI);
+    ctx.context.arc(
+      posX * ctx.wRatio, posY * ctx.hRatio, (LIFE_RADIUS - .5) * ctx.wRatio, .75 * Math.PI, -.15 * Math.PI);
     ctx.context.strokeStyle = LIFE_LIGHT_CL;
     ctx.context.lineWidth = ctx.wRatio;
     ctx.context.stroke();
@@ -114,7 +122,15 @@ function drawImage(content: string, ctx: Ctx, posX: number, posY: number, width:
     //   // @ts-ignore
     ctx.context.drawImage(image,
       posX * ctx.wRatio, posY * ctx.hRatio,
-      width * ctx.wRatio, height * ctx.hRatio);
+      width * ctx.wRatio, height * ctx.hRatio
+    );
   };
   image.src = content;
+}
+
+function loadImage(item: Drawable): Observable<Event> {
+  const image = new Image();
+  image.src = item.svg;
+  return fromEvent(image, 'load')
+    .pipe(tap(event => item.image = event.target as HTMLImageElement));
 }
