@@ -11,27 +11,27 @@ function init() {
 
   preloadImages().subscribe(() => {
 
-    // const ticker$ = interval(GAME_SPEED)
-    //   .pipe(
-    //     map(() => GameAction.MoveDown)
-    //   );
-    //
-    // const keyDown$ = fromEvent(document, 'keydown')
-    //   .pipe(
-    //     map(keyToGameAction),
-    //     filter(Boolean)
-    //   );
-    //
-    // const gameState$ = merge(ticker$, keyDown$)
-    //   .pipe(
-    //     scan(calculateState, generateInitialState()),
-    //   );
-    //
-    // gameState$
-    //   .pipe(
-    //     withLatestFrom(interval(0, animationFrameScheduler), (state, _) => state)
-    //   )
-    //   .subscribe((state: GameState) => renderState(state, ctx))
+    const ticker$ = interval(GAME_SPEED)
+      .pipe(
+        map(() => GameAction.MoveDown)
+      );
+
+    const keyDown$ = fromEvent(document, 'keydown')
+      .pipe(
+        map(keyToGameAction),
+        filter(Boolean)
+      );
+
+    const gameState$ = merge(ticker$, keyDown$)
+      .pipe(
+        scan(calculateState, generateInitialState()),
+      );
+
+    gameState$
+      .pipe(
+        withLatestFrom(interval(0, animationFrameScheduler), (state, _) => state)
+      )
+      .subscribe((state: GameState) => renderState(state, ctx))
 
   });
 }

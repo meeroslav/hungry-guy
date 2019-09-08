@@ -1,7 +1,7 @@
 import { GameState } from './game-state';
 import { ALL_FOOD, CHEF, Drawable, FOOD_SIZE, GAME_OVER, INTRO } from './game-images';
 import { combineLatest, Observable, fromEvent } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { debounceTime, tap } from 'rxjs/operators';
 
 const GRD_START_CL = '#4ca1af';
 const GRD_END_CL = '#C4E0E5';
@@ -39,7 +39,8 @@ export function initCanvasCtx(canvas: HTMLCanvasElement): Ctx {
 }
 
 export function preloadImages(): Observable<any> {
-  return combineLatest([...ALL_FOOD.map(loadImage), loadImage(CHEF), loadImage(INTRO), loadImage(GAME_OVER)]);
+  return combineLatest([...ALL_FOOD.map(loadImage), loadImage(CHEF), loadImage(INTRO), loadImage(GAME_OVER)])
+    .pipe(debounceTime(1000));
 }
 
 export function renderState(state: GameState, ctx: Ctx) {
