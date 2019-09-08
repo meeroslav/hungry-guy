@@ -1,7 +1,7 @@
 import { GameState } from './game-state';
-import { ALL_FOOD, CHEF, Drawable, FOOD_SIZE } from './game-images';
+import { ALL_FOOD, CHEF, Drawable, FOOD_SIZE, GAME_OVER, INTRO } from './game-images';
 import { combineLatest, Observable, fromEvent } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 const GRD_START_CL = '#4ca1af';
 const GRD_END_CL = '#C4E0E5';
@@ -10,8 +10,8 @@ const LIFE_LIGHT_CL = '#ffa4a4';
 const LIFE_DARK_CL = '#9b2830';
 const TEXT_CL = '#242122';
 
-const rxjsdark = '#5C2E88';
-const rxjslight = '#ED168F';
+const RXJS_CL_DARK = '#5C2E88';
+const RXJS_CL_LIGHT = '#ED168F';
 
 const SIZE_OFFSET = 1;
 const LIFE_RADIUS = 3;
@@ -37,12 +37,13 @@ export function initCanvasCtx(canvas: HTMLCanvasElement): Ctx {
 }
 
 export function preloadImages(): Observable<any> {
-  return combineLatest([...ALL_FOOD.map(loadImage), loadImage(CHEF)]);
+  return combineLatest([...ALL_FOOD.map(loadImage), loadImage(CHEF), loadImage(INTRO), loadImage(GAME_OVER)]);
 }
 
 export function renderState(state: GameState, ctx: Ctx) {
   fillBackground(ctx);
   if (state.lives) {
+    drawIntro(ctx);
     drawFood(state, ctx);
     drawChef(state, ctx);
     drawLives(state, ctx);
@@ -58,6 +59,13 @@ function fillBackground(ctx: Ctx) {
   grd.addColorStop(1, GRD_END_CL);
   ctx.context.fillStyle = grd;
   ctx.context.fillRect(0, 0, 100 * ctx.wRatio, 100 * ctx.hRatio);
+}
+
+function drawIntro(ctx: Ctx) {
+  drawImage(INTRO, ctx,
+    10, 10,
+    80, 80
+  );
 }
 
 function drawFood(state: GameState, ctx: Ctx) {
@@ -108,14 +116,11 @@ function drawScore(state: GameState, ctx: Ctx) {
 }
 
 function drawGameOver(state: GameState, ctx: Ctx) {
-  ctx.context.font = `${ctx.wRatio * 10}px Arial`;
-  ctx.context.textAlign = 'center';
-  ctx.context.fillStyle = TEXT_CL;
-  ctx.context.fillText('Game Over', 50 * ctx.wRatio, 50 * ctx.hRatio);
+  drawImage(GAME_OVER, ctx, 5, 40, 90, 15);
 
-  ctx.context.font = `${ctx.wRatio * 7}px Arial`;
+  ctx.context.font = `${ctx.wRatio * 6}px Arial`;
   ctx.context.textAlign = 'center';
-  ctx.context.fillStyle = TEXT_CL;
+  ctx.context.fillStyle = RXJS_CL_DARK;
   ctx.context.fillText(`${state.score} points`, 50 * ctx.wRatio, 60 * ctx.hRatio);
 }
 
