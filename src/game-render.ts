@@ -33,6 +33,8 @@ export function initCanvasCtx(canvas: HTMLCanvasElement): Ctx {
   canvas.setAttribute('height', cWidth.toString());
   canvas.setAttribute('width', cHeight.toString());
 
+  drawIntro({ context, wRatio, hRatio });
+
   return { context, wRatio, hRatio };
 }
 
@@ -43,7 +45,6 @@ export function preloadImages(): Observable<any> {
 export function renderState(state: GameState, ctx: Ctx) {
   fillBackground(ctx);
   if (state.lives) {
-    drawIntro(ctx);
     drawFood(state, ctx);
     drawChef(state, ctx);
     drawLives(state, ctx);
