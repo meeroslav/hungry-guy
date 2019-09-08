@@ -37,7 +37,11 @@ export function calculateState(state: GameState, action: GameAction): GameState 
     if (foodY === MAX_Y - 1) {
       // INCREASE SCORE
       if (state.foodX === state.chefX) {
-        return { ...state, foodY, score: state.score + state.food.speed * SCORE_MULTIPLIER };
+        return {
+          ...state, foodY,
+          score: state.score + state.food.speed * SCORE_MULTIPLIER,
+          foodCollected: state.foodCollected + 1
+        };
       }
       // LIFE LOST
       return { ...state, foodY, lives: state.lives - 1 };

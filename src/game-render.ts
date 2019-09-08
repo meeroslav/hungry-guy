@@ -137,6 +137,9 @@ function drawGameOver(state: GameState, ctx: Ctx) {
   ctx.context.textAlign = 'center';
   ctx.context.fillStyle = RXJS_CL_DARK;
   ctx.context.fillText(`${state.score} points`, 50 * ctx.wRatio, 60 * ctx.hRatio);
+  ctx.context.font = `${ctx.wRatio * 5}px Arial`;
+  ctx.context.fillStyle = RXJS_CL_LIGHT;
+  ctx.context.fillText(`${state.foodCollected} items collected`, 50 * ctx.wRatio, 66 * ctx.hRatio);
 }
 
 function drawImage(drawable: Drawable, ctx: Ctx, posX: number, posY: number, width: number, height: number) {
