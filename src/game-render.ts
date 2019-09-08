@@ -1,5 +1,5 @@
 import { GameState } from './game-state';
-import { FOOD_SIZE, CHEF } from './game-food';
+import { FOOD_SIZE, CHEF } from './game-images';
 
 const GRD_START_CL = '#4ca1af';
 const GRD_END_CL = '#C4E0E5';
@@ -59,7 +59,7 @@ function drawFood(state: GameState, ctx: Ctx) {
 }
 
 function drawChef(state: GameState, ctx: Ctx) {
-  drawImage(CHEF, ctx, state.chefX * FOOD_SIZE - SIZE_OFFSET, 100 - FOOD_SIZE - SIZE_OFFSET,
+  drawImage(CHEF.svg, ctx, state.chefX * FOOD_SIZE - SIZE_OFFSET, 100 - FOOD_SIZE - SIZE_OFFSET,
     FOOD_SIZE + 2 * SIZE_OFFSET, FOOD_SIZE + 2 * SIZE_OFFSET
   );
 }

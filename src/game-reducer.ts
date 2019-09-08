@@ -1,5 +1,5 @@
 import { GameState, MAX_X } from './game-state';
-import { ALL_FOOD } from './game-food';
+import { ALL_FOOD } from './game-images';
 
 export enum GameAction {
   MoveDown = 'MoveDown',

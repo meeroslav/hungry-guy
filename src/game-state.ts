@@ -1,4 +1,4 @@
-import { ALL_FOOD, Food } from './game-food';
+import { ALL_FOOD, Food } from './game-images';
 
 export const MAX_X = 10;
 export const MAX_Y = 10;

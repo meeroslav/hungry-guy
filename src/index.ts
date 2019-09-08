@@ -3,7 +3,7 @@ import { initCanvasCtx, renderState } from './game-render';
 import { GAME_SPEED, GameState, generateInitialState } from './game-state';
 import { animationFrameScheduler, fromEvent, interval, merge } from 'rxjs';
 import { map, scan, withLatestFrom } from 'rxjs/operators';
-import { calculateState, GameAction, keyToGameAction } from './game-actions';
+import { calculateState, GameAction, keyToGameAction } from './game-reducer';
 import { filter } from 'rxjs/internal/operators/filter';
 
 function init() {
