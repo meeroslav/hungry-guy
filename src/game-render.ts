@@ -58,14 +58,14 @@ function fillBackground(ctx: Ctx) {
 }
 
 function drawFood(state: GameState, ctx: Ctx) {
-  drawImage(state.food.svg, ctx,
+  drawImage(state.food, ctx,
     state.foodX * FOOD_SIZE + SIZE_OFFSET, state.foodY * FOOD_SIZE + SIZE_OFFSET,
     FOOD_SIZE - 2 * SIZE_OFFSET, FOOD_SIZE - 2 * SIZE_OFFSET
   );
 }
 
 function drawChef(state: GameState, ctx: Ctx) {
-  drawImage(CHEF.svg, ctx, state.chefX * FOOD_SIZE - SIZE_OFFSET, 100 - FOOD_SIZE - SIZE_OFFSET,
+  drawImage(CHEF, ctx, state.chefX * FOOD_SIZE - SIZE_OFFSET, 100 - FOOD_SIZE - SIZE_OFFSET,
     FOOD_SIZE + 2 * SIZE_OFFSET, FOOD_SIZE + 2 * SIZE_OFFSET
   );
 }
@@ -116,16 +116,23 @@ function drawGameOver(state: GameState, ctx: Ctx) {
   ctx.context.fillText(`${state.score} points`, 50 * ctx.wRatio, 60 * ctx.hRatio);
 }
 
-function drawImage(content: string, ctx: Ctx, posX: number, posY: number, width: number, height: number) {
-  const image = new Image();
-  image.onload = () => {
-    //   // @ts-ignore
-    ctx.context.drawImage(image,
+function drawImage(drawable: Drawable, ctx: Ctx, posX: number, posY: number, width: number, height: number) {
+  if (drawable.image) {
+    ctx.context.drawImage(drawable.image,
       posX * ctx.wRatio, posY * ctx.hRatio,
       width * ctx.wRatio, height * ctx.hRatio
     );
-  };
-  image.src = content;
+  } else {
+    const image = new Image();
+    image.onload = () => {
+      //   // @ts-ignore
+      ctx.context.drawImage(image,
+        posX * ctx.wRatio, posY * ctx.hRatio,
+        width * ctx.wRatio, height * ctx.hRatio
+      );
+    };
+    image.src = drawable.svg;
+  }
 }
 
 function loadImage(item: Drawable): Observable<Event> {
