@@ -1,8 +1,8 @@
 import './style.scss';
 import { initCanvasCtx, preloadImages, renderState } from './game-render';
-import { GAME_SPEED, GameState, generateInitialState } from './game-state';
+import { GAME_SPEED, generateInitialState } from './game-state';
 import { animationFrameScheduler, fromEvent, interval, merge } from 'rxjs';
-import { map, scan, withLatestFrom, filter } from 'rxjs/operators';
+import { map, scan, withLatestFrom, filter, takeWhile } from 'rxjs/operators';
 import { calculateState, GameAction, keyToGameAction } from './game-reducer';
 
 function init() {
@@ -25,13 +25,14 @@ function init() {
     const gameState$ = merge(ticker$, keyDown$)
       .pipe(
         scan(calculateState, generateInitialState()),
+        takeWhile(state => !!state.lives)
       );
 
     gameState$
       .pipe(
         withLatestFrom(interval(0, animationFrameScheduler), (state, _) => state)
       )
-      .subscribe((state: GameState) => renderState(state, ctx))
+      .subscribe(state => renderState(state, ctx))
 
   });
 }

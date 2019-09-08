@@ -1,20 +1,19 @@
 import { GameState } from './game-state';
-import { ALL_FOOD, CHEF, Drawable, FOOD_SIZE, GAME_OVER, INTRO } from './game-images';
+import { ALL_FOOD, BASKET, CHEF, Drawable, FOOD_SIZE, GAME_OVER, INTRO, LIFE } from './game-images';
 import { combineLatest, Observable, fromEvent } from 'rxjs';
 import { debounceTime, tap } from 'rxjs/operators';
 
 const GRD_START_CL = '#4ca1af';
 const GRD_END_CL = '#C4E0E5';
-const LIFE_CL = '#ea3942';
-const LIFE_LIGHT_CL = '#ffa4a4';
-const LIFE_DARK_CL = '#9b2830';
 const TEXT_CL = '#242122';
 
 const RXJS_CL_DARK = '#5C2E88';
 const RXJS_CL_LIGHT = '#ED168F';
 
 const SIZE_OFFSET = 1;
-const LIFE_RADIUS = 3;
+const LIFE_SIZE = 6;
+const BASKET_SIZE = 12;
+const BASKET_OFFSET = BASKET_SIZE / FOOD_SIZE;
 
 export interface Ctx {
   context: CanvasRenderingContext2D;
@@ -39,15 +38,23 @@ export function initCanvasCtx(canvas: HTMLCanvasElement): Ctx {
 }
 
 export function preloadImages(): Observable<any> {
-  return combineLatest([...ALL_FOOD.map(loadImage), loadImage(CHEF), loadImage(INTRO), loadImage(GAME_OVER)])
+  return combineLatest([
+    ...ALL_FOOD.map(loadImage),
+    loadImage(CHEF),
+    loadImage(BASKET),
+    loadImage(LIFE),
+    loadImage(INTRO),
+    loadImage(GAME_OVER)
+  ])
     .pipe(debounceTime(1000));
 }
 
 export function renderState(state: GameState, ctx: Ctx) {
   fillBackground(ctx);
   if (state.lives) {
-    drawFood(state, ctx);
     drawChef(state, ctx);
+    drawFood(state, ctx);
+    drawBasket(state, ctx);
     drawLives(state, ctx);
     drawScore(state, ctx);
   } else {
@@ -78,34 +85,24 @@ function drawFood(state: GameState, ctx: Ctx) {
 }
 
 function drawChef(state: GameState, ctx: Ctx) {
-  drawImage(CHEF, ctx, state.chefX * FOOD_SIZE - SIZE_OFFSET, 100 - FOOD_SIZE - SIZE_OFFSET,
-    FOOD_SIZE + 2 * SIZE_OFFSET, FOOD_SIZE + 2 * SIZE_OFFSET
+  drawImage(CHEF, ctx,
+    state.chefX * FOOD_SIZE, 100 - FOOD_SIZE,
+    FOOD_SIZE, FOOD_SIZE
+  );
+}
+
+function drawBasket(state: GameState, ctx: Ctx) {
+  drawImage(BASKET, ctx,
+    state.chefX * FOOD_SIZE - SIZE_OFFSET, 100 - (BASKET_OFFSET * state.foodY),
+    BASKET_SIZE, BASKET_SIZE
   );
 }
 
 function drawLives(state: GameState, ctx: Ctx) {
   for (let i = 0; i < state.lives; i++) {
-    const posX = i * LIFE_RADIUS * 2 + i * SIZE_OFFSET + LIFE_RADIUS + SIZE_OFFSET;
-    const posY = SIZE_OFFSET + LIFE_RADIUS;
+    const posX = i * (LIFE_SIZE + SIZE_OFFSET) + SIZE_OFFSET;
 
-    ctx.context.beginPath();
-    ctx.context.arc(posX * ctx.wRatio, posY * ctx.hRatio, LIFE_RADIUS * ctx.wRatio, 0, Math.PI * 2);
-    ctx.context.fillStyle = LIFE_CL;
-    ctx.context.fill();
-
-    ctx.context.beginPath();
-    ctx.context.arc(
-      posX * ctx.wRatio, posY * ctx.hRatio, (LIFE_RADIUS - .5) * ctx.wRatio, -.15 * Math.PI, .75 * Math.PI);
-    ctx.context.strokeStyle = LIFE_DARK_CL;
-    ctx.context.lineWidth = ctx.wRatio;
-    ctx.context.stroke();
-
-    ctx.context.beginPath();
-    ctx.context.arc(
-      posX * ctx.wRatio, posY * ctx.hRatio, (LIFE_RADIUS - .5) * ctx.wRatio, .75 * Math.PI, -.15 * Math.PI);
-    ctx.context.strokeStyle = LIFE_LIGHT_CL;
-    ctx.context.lineWidth = ctx.wRatio;
-    ctx.context.stroke();
+    drawImage(LIFE, ctx, posX, SIZE_OFFSET, LIFE_SIZE, LIFE_SIZE);
   }
 }
 
