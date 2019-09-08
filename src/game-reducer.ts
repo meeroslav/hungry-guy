@@ -1,5 +1,4 @@
 import { GameState, generateFoodItem, MAX_X, MAX_Y } from './game-state';
-import { ALL_FOOD } from './game-images';
 
 export enum GameAction {
   MoveDown = 'MoveDown',
@@ -8,6 +7,7 @@ export enum GameAction {
 }
 
 const SCORE_MULTIPLIER = 40;
+const SPEED_MULTIPLIER = .5;
 
 export function keyToGameAction(event: KeyboardEvent): GameAction {
   if (event.code === 'ArrowLeft') {
@@ -33,7 +33,7 @@ export function calculateState(state: GameState, action: GameAction): GameState 
   }
   // OTHERWISE
   if (action === GameAction.MoveDown) {
-    const foodY = state.foodY + state.food.speed;
+    const foodY = state.foodY + state.food.speed * SPEED_MULTIPLIER;
     if (foodY === MAX_Y - 1) {
       // INCREASE SCORE
       if (state.foodX === state.chefX) {
