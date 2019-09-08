@@ -25,7 +25,7 @@ function init() {
     const gameState$ = merge(ticker$, keyDown$)
       .pipe(
         scan(calculateState, generateInitialState()),
-        // takeWhile(state => state.gameOn)
+        takeWhile(state => state.gameOn)
       );
 
     gameState$
