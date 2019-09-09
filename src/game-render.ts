@@ -30,21 +30,7 @@ export function initCanvasCtx(canvas: HTMLCanvasElement): Ctx {
   canvas.setAttribute('height', cWidth.toString());
   canvas.setAttribute('width', cHeight.toString());
 
-  drawIntro({ context, wRatio, hRatio });
-
   return { context, wRatio, hRatio };
-}
-
-export function preloadImages(): Observable<any> {
-  return combineLatest([
-    ...ALL_FOOD.map(loadImage),
-    loadImage(CHEF),
-    loadImage(BASKET),
-    loadImage(LIFE),
-    loadImage(INTRO),
-    loadImage(GAME_OVER)
-  ])
-    .pipe(debounceTime(1000));
 }
 
 export function renderState(state: GameState, ctx: Ctx) {
@@ -68,7 +54,7 @@ function fillBackground(ctx: Ctx) {
   ctx.context.fillRect(0, 0, 100 * ctx.wRatio, 100 * ctx.hRatio);
 }
 
-function drawIntro(ctx: Ctx) {
+export function drawIntro(ctx: Ctx) {
   drawImage(INTRO, ctx,
     10, 10,
     80, 80
@@ -166,4 +152,15 @@ function loadImage(item: Drawable): Observable<Event> {
   image.src = item.svg;
   return fromEvent(image, 'load')
     .pipe(tap(event => item.image = event.target as HTMLImageElement));
+}
+
+export function preloadImages(): Observable<any> {
+  return combineLatest([
+    ...ALL_FOOD.map(loadImage),
+    loadImage(CHEF),
+    loadImage(BASKET),
+    loadImage(LIFE),
+    loadImage(INTRO),
+    loadImage(GAME_OVER)
+  ]);
 }

@@ -22,7 +22,7 @@ export interface GameState extends FoodState {
 export function generateInitialState(): GameState {
   return {
     gameOn: true,
-    chefX: 5,
+    chefX: Math.round(MAX_X / 2),
     score: 0,
     foodCollected: 0,
     lives: LIVES,
