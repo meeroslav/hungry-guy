@@ -1,15 +1,10 @@
-# 🚀 Welcome to your new awesome project!
+# 🍔 Hungry Guy a.k.a. RxJS Chef 👨‍🍳
 
-This project has been created using **webpack scaffold**, you can now run
-
-```
-npm run build
-```
-
-or
+This project has been created using **parcel** 📦, **typescript** ⌨️ and **rxjs** 🧮. 
+You can start it with
 
 ```
-yarn build
+npm run serve
 ```
 
-to bundle your application
+
