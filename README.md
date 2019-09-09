@@ -15,3 +15,5 @@ npm ci
 ```
 
 before you do, though!
+
+![Game screenshot](https://github.com/meeroslav/hungry-guy/blob/master/docs/gif_high.gif)
