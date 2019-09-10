@@ -1,7 +1,7 @@
 import { GameState } from './game-state';
 import { ALL_FOOD, BASKET, CHEF, Drawable, FOOD_SIZE, GAME_OVER, INTRO, LIFE } from './game-images';
 import { combineLatest, Observable, fromEvent } from 'rxjs';
-import { debounceTime, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 const GRD_START_CL = '#4ca1af';
 const GRD_END_CL = '#C4E0E5';

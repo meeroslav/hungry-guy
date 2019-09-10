@@ -11,13 +11,10 @@ function init() {
   drawIntro(ctx);
 
   preloadImages()
-    .pipe(debounceTime(1000))
+    .pipe(
+      debounceTime(2000)
+    )
     .subscribe(() => {
-
-    const ticker$ = interval(GAME_SPEED)
-      .pipe(
-        map(() => GameAction.MoveDown)
-      );
 
     const keyDown$ = fromEvent(document, 'keydown')
       .pipe(
@@ -25,17 +22,18 @@ function init() {
         filter(Boolean)
       );
 
-    const gameState$ = merge(ticker$, keyDown$)
+    const timer$ = interval(GAME_SPEED)
+      .pipe(map(() => GameAction.MoveDown));
+
+    merge(timer$, keyDown$)
       .pipe(
         scan(calculateState, generateInitialState()),
+        withLatestFrom(interval(0, animationFrameScheduler), (state, _) => state),
         takeWhile(state => state.gameOn)
-      );
-
-    gameState$
-      .pipe(
-        withLatestFrom(interval(0, animationFrameScheduler), (state, _) => state)
       )
-      .subscribe(state => renderState(state, ctx))
+      .subscribe(state => {
+        renderState(state, ctx)
+      });
 
   });
 }
