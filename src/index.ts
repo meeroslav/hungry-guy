@@ -2,7 +2,7 @@ import './style.scss';
 import { drawIntro, initCanvasCtx, preloadImages, renderState } from './game-render';
 import { GAME_SPEED, generateInitialState } from './game-state';
 import { animationFrameScheduler, fromEvent, interval, merge } from 'rxjs';
-import { map, scan, withLatestFrom, filter, takeWhile, debounceTime } from 'rxjs/operators';
+import { map, scan, withLatestFrom, filter, takeWhile, delay } from 'rxjs/operators';
 import { calculateState, GameAction, keyToGameAction } from './game-reducer';
 
 function init() {
@@ -11,9 +11,7 @@ function init() {
   drawIntro(ctx);
 
   preloadImages()
-    .pipe(
-      debounceTime(2000)
-    )
+    .pipe(delay(2000))
     .subscribe(() => {
 
     const keyDown$ = fromEvent(document, 'keydown')
