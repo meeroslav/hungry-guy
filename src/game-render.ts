@@ -151,7 +151,7 @@ function loadImage(item: Drawable): Observable<Event> {
   const image = new Image();
   image.src = item.svg;
   return fromEvent(image, 'load')
-    .pipe(tap(event => item.image = event.target as HTMLImageElement));
+    .pipe(tap((event: Event) => item.image = event.target as HTMLImageElement));
 }
 
 export function preloadImages(): Observable<any> {
