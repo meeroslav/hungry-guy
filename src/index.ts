@@ -1,17 +1,19 @@
 import './style.scss';
 import { drawIntro, initCanvasCtx, preloadImages, renderState } from './game-render';
-import { GAME_SPEED, generateInitialState } from './game-state';
+import { GAME_SPEED, GameState, generateInitialState } from './game-state';
 import { animationFrameScheduler, fromEvent, interval, merge } from 'rxjs';
-import { map, scan, withLatestFrom, filter, takeWhile, delay } from 'rxjs/operators';
+import { map, scan, withLatestFrom, filter, takeWhile, delay, tap } from 'rxjs/operators';
 import { calculateState, GameAction, keyToGameAction } from './game-reducer';
 
 function init() {
   const canvas: HTMLCanvasElement = document.getElementById('game-canvas') as HTMLCanvasElement;
   const ctx = initCanvasCtx(canvas);
-  drawIntro(ctx);
 
   preloadImages()
-    .pipe(delay(2000))
+    .pipe(
+      tap(() => drawIntro(ctx)),
+      delay(2000)
+    )
     .subscribe(() => {
 
     const keyDown$ = fromEvent(document, 'keydown')
@@ -29,10 +31,7 @@ function init() {
         withLatestFrom(interval(0, animationFrameScheduler), (state, _) => state),
         takeWhile(state => state.gameOn)
       )
-      .subscribe(state => {
-        renderState(state, ctx)
-      });
-
+      .subscribe((state: GameState) => renderState(state, ctx));
   });
 }
 
