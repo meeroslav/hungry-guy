@@ -6,7 +6,7 @@ export enum GameAction {
   ChefRight = 'ChefRight'
 }
 
-const SCORE_MULTIPLIER = 40;
+const SCORE_MULTIPLIER = 10;
 const SPEED_MULTIPLIER = .5;
 
 export function keyToGameAction(event: KeyboardEvent): GameAction {
