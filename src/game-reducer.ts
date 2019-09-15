@@ -39,7 +39,7 @@ export function calculateState(state: GameState, action: GameAction): GameState 
       if (state.foodX === state.chefX) {
         return {
           ...state, foodY,
-          score: state.score + state.food.speed * SCORE_MULTIPLIER,
+          score: state.score + Math.round(SCORE_MULTIPLIER / state.food.speed),
           foodCollected: state.foodCollected + 1
         };
       }
