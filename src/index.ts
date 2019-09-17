@@ -1,8 +1,8 @@
 import './style.scss';
 import { drawIntro, initCanvasCtx, preloadImages, renderState } from './game-render';
 import { GAME_SPEED, GameState, generateInitialState } from './game-state';
-import { animationFrameScheduler, fromEvent, interval, merge } from 'rxjs';
-import { map, scan, withLatestFrom, filter, takeWhile, delay, tap } from 'rxjs/operators';
+import { fromEvent, interval, merge } from 'rxjs';
+import { map, scan, filter, takeWhile, delay, tap } from 'rxjs/operators';
 import { calculateState, GameAction, keyToGameAction } from './game-reducer';
 
 function init() {
@@ -28,7 +28,6 @@ function init() {
     merge(timer$, keyDown$)
       .pipe(
         scan(calculateState, generateInitialState()),
-        withLatestFrom(interval(0, animationFrameScheduler), (state, _) => state),
         takeWhile(state => state.gameOn)
       )
       .subscribe((state: GameState) => renderState(state, ctx));
