@@ -1,6 +1,9 @@
 body {
   margin: 0;
   padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
   background: linear-gradient(#2c3e50, #4ca1af);
 }
 
@@ -14,6 +17,8 @@ body {
 
 .outer {
   position: relative;
+  max-width: calc(100vw - 4em);
+  max-height: calc(100vw - 4em);
 
   &:before {
     display: block;
