@@ -6,8 +6,7 @@ export enum GameAction {
   ChefRight = 'ChefRight'
 }
 
-const SCORE_MULTIPLIER = 10;
-const SPEED_MULTIPLIER = .5;
+const SPEED_DIVIDER = 5;
 
 export function keyToGameAction(event: KeyboardEvent): GameAction {
   if (event.code === 'ArrowLeft') {
@@ -33,13 +32,13 @@ export function calculateState(state: GameState, action: GameAction): GameState 
   }
   // OTHERWISE
   if (action === GameAction.MoveDown) {
-    const foodY = state.foodY + state.food.speed * SPEED_MULTIPLIER;
+    const foodY = state.foodY + SPEED_DIVIDER / state.food.health;
     if (foodY === MAX_Y - 1) {
       // INCREASE SCORE
       if (state.foodX === state.chefX) {
         return {
           ...state, foodY,
-          score: state.score + Math.round(SCORE_MULTIPLIER / state.food.speed),
+          score: state.score + state.food.health,
           foodCollected: state.foodCollected + 1
         };
       }
