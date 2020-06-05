@@ -5,8 +5,8 @@
     "serve": "parcel src/index.html"
   },
   "devDependencies": {
-    "node-sass": "^4.12.0",
-    "parcel-bundler": "^1.12.3",
+    "node-sass": "^4.14.1",
+    "parcel-bundler": "^1.12.4",
     "typescript": "^3.5.3"
   },
   "dependencies": {
